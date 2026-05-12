@@ -20,7 +20,7 @@ export default function Home() {
             href="/patient"
             className="block w-full px-8 py-4 rounded-xl border-2 border-foreground/15 text-foreground font-medium hover:border-foreground/30 transition-colors text-center"
           >
-            I am looking for a therapist
+            I&apos;m sharing my personal experience
           </Link>
         </div>
       </div>
