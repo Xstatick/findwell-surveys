@@ -36,6 +36,10 @@ function ThankYouContent() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [emailTouched, setEmailTouched] = useState(false);
+
+  const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email.trim());
+  const showEmailError = emailTouched && contact.email.length > 0 && !emailIsValid;
 
   const isTherapist = surveyType === "therapist";
   const interests = isTherapist ? THERAPIST_INTERESTS : PATIENT_INTERESTS;
@@ -85,7 +89,7 @@ function ThankYouContent() {
     setSubmitted(true);
   };
 
-  const hasContactInfo = contact.name || contact.email;
+  const canSubmitContact = emailIsValid;
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
@@ -118,8 +122,8 @@ function ThankYouContent() {
             <h2 className="text-xl font-medium mb-2">Want to stay involved?</h2>
             <p className="text-foreground/60 mb-6 text-sm">
               {isTherapist
-                ? "If you'd like to stay involved - whether that's joining a future focus group, a brief call, or simply hearing about what we develop - we'd love to stay in touch. Sharing your information below is entirely optional."
-                : "If you'd like to stay involved - whether that's joining a future conversation, getting early access when there's something to show, or simply hearing about how this develops - we'd love to stay in touch. Sharing your information below is entirely optional."}
+                ? "If you'd like to stay involved - whether that's joining a future focus group, a brief call, or simply hearing about what we develop - we'd love to stay in touch. This whole section is optional, but if you do share your info, we'll need a valid email so we can actually reach you."
+                : "If you'd like to stay involved - whether that's joining a future conversation, getting early access when there's something to show, or simply hearing about how this develops - we'd love to stay in touch. This whole section is optional, but if you do share your info, we'll need a valid email so we can actually reach you."}
             </p>
 
             <div className="space-y-4">
@@ -130,13 +134,23 @@ function ThankYouContent() {
                 onChange={(e) => setContact((prev) => ({ ...prev, name: e.target.value }))}
                 className="w-full p-3 rounded-xl border-2 border-foreground/10 bg-transparent text-foreground placeholder:text-foreground/30 focus:border-amber-500 focus:outline-none transition-colors"
               />
-              <input
-                type="email"
-                placeholder="Email"
-                value={contact.email}
-                onChange={(e) => setContact((prev) => ({ ...prev, email: e.target.value }))}
-                className="w-full p-3 rounded-xl border-2 border-foreground/10 bg-transparent text-foreground placeholder:text-foreground/30 focus:border-amber-500 focus:outline-none transition-colors"
-              />
+              <div>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={contact.email}
+                  onChange={(e) => setContact((prev) => ({ ...prev, email: e.target.value }))}
+                  onBlur={() => setEmailTouched(true)}
+                  className={`w-full p-3 rounded-xl border-2 bg-transparent text-foreground placeholder:text-foreground/30 focus:outline-none transition-colors ${
+                    showEmailError
+                      ? "border-red-500 focus:border-red-500"
+                      : "border-foreground/10 focus:border-amber-500"
+                  }`}
+                />
+                {showEmailError && (
+                  <p className="text-sm text-red-500 mt-1.5 ml-1">Please enter a valid email address.</p>
+                )}
+              </div>
               {isTherapist && (
                 <input
                   type="tel"
@@ -182,7 +196,7 @@ function ThankYouContent() {
 
               <button
                 onClick={handleContactSubmit}
-                disabled={!hasContactInfo || submitting}
+                disabled={!canSubmitContact || submitting}
                 className="w-full px-8 py-3 rounded-xl bg-amber-500 text-white font-medium hover:bg-amber-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed mt-2"
               >
                 {submitting ? "Sending..." : "Count me in"}

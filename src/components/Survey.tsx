@@ -130,6 +130,15 @@ export default function Survey({ definition, surveyType, tableName }: SurveyProp
     ? currentAnswer.length > 0
     : !!currentAnswer;
 
+  // Text questions are always required and need at least 3 characters before advancing
+  const canAdvance = (() => {
+    if (!currentQuestion) return false;
+    if (currentQuestion.type === "text") {
+      return typeof currentAnswer === "string" && currentAnswer.trim().length >= 3;
+    }
+    return hasAnswer;
+  })();
+
   const isLastQuestion = (() => {
     if (!currentQuestion) return false;
     // If the question has branch rules but no answer yet, it's not the last question
@@ -209,7 +218,7 @@ export default function Survey({ definition, surveyType, tableName }: SurveyProp
           </button>
           <button
             onClick={handleNext}
-            disabled={(!hasAnswer && currentQuestion.required !== false) || isSubmitting}
+            disabled={!canAdvance || isSubmitting}
             className="px-8 py-3 rounded-xl bg-amber-500 text-white font-medium hover:bg-amber-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {isSubmitting ? "Submitting..." : isLastQuestion ? "Submit" : "Next"}
