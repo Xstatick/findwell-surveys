@@ -39,14 +39,14 @@ const patientSurvey: SurveyDefinition = {
         { label: "3 to 10 years ago", value: "3-to-10" },
         { label: "More than 10 years ago", value: "more-than-10" },
       ],
-      required: false,
+      required: true,
       nextQuestionId: "p3",
     },
     {
       id: "p3",
       type: "text",
       title: "The most recent time you tried to find a therapist, where did you start looking?",
-      required: false,
+      required: true,
       nextQuestionId: "p4",
     },
     {
@@ -54,7 +54,7 @@ const patientSurvey: SurveyDefinition = {
       type: "text",
       title: "After that initial start, walk me through what came next.",
       description: "We're curious about the whole experience - who you contacted, who you talked to, what worked, what didn't.",
-      required: false,
+      required: true,
       nextQuestionId: "p5",
     },
     {
@@ -69,7 +69,7 @@ const patientSurvey: SurveyDefinition = {
         { label: "More than 6", value: "more-than-6" },
         { label: "I never found one I stuck with", value: "never-found" },
       ],
-      required: false,
+      required: true,
       nextQuestionId: "p6",
     },
     {
@@ -82,14 +82,14 @@ const patientSurvey: SurveyDefinition = {
         { label: "4 or more", value: "4-or-more" },
         { label: "I never found one who felt right", value: "never-found" },
       ],
-      required: false,
+      required: true,
       nextQuestionId: "p7",
     },
     {
       id: "p7",
       type: "text",
       title: "If you tried therapists who didn't feel like a good fit, what made it not work?",
-      required: false,
+      required: true,
       nextQuestionId: "p8",
     },
     {
@@ -101,7 +101,7 @@ const patientSurvey: SurveyDefinition = {
         { label: "No", value: "no" },
         { label: "I did give up, at least for a while", value: "gave-up" },
       ],
-      required: false,
+      required: true,
       branchRules: [
         { optionValue: "yes", nextQuestionId: "p8a" },
         { optionValue: "no", nextQuestionId: "p9" },
@@ -112,7 +112,7 @@ const patientSurvey: SurveyDefinition = {
       id: "p8a",
       type: "text",
       title: "What was happening at that point?",
-      required: false,
+      required: true,
       nextQuestionId: "p9",
     },
     {
@@ -128,21 +128,21 @@ const patientSurvey: SurveyDefinition = {
       id: "p10",
       type: "text",
       title: "What drew you to consider therapy in the first place?",
-      required: false,
+      required: true,
       nextQuestionId: "p11",
     },
     {
       id: "p11",
       type: "text",
       title: "What stopped you from trying?",
-      required: false,
+      required: true,
       nextQuestionId: "p12",
     },
     {
       id: "p12",
       type: "text",
       title: "If you imagined trying to find a therapist tomorrow, where would you start?",
-      required: false,
+      required: true,
       nextQuestionId: "p13",
     },
     {
@@ -158,7 +158,7 @@ const patientSurvey: SurveyDefinition = {
       id: "p14",
       type: "text",
       title: "If a close friend told you they were thinking about trying therapy, what advice would you give them about how to find one?",
-      required: false,
+      required: true,
       nextQuestionId: "p15",
     },
     {

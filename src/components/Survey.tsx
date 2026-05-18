@@ -130,9 +130,11 @@ export default function Survey({ definition, surveyType, tableName }: SurveyProp
     ? currentAnswer.length > 0
     : !!currentAnswer;
 
-  // Text questions are always required and need at least 3 characters before advancing
+  // Required text questions need at least 3 characters; non-required questions
+  // can always advance, including with no answer at all.
   const canAdvance = (() => {
     if (!currentQuestion) return false;
+    if (!currentQuestion.required) return true;
     if (currentQuestion.type === "text") {
       return typeof currentAnswer === "string" && currentAnswer.trim().length >= 3;
     }
@@ -179,7 +181,12 @@ export default function Survey({ definition, surveyType, tableName }: SurveyProp
         <ProgressBar current={currentIndex + 1} total={totalQuestions} />
 
         <div className="mb-8">
-          <h2 className="text-2xl font-semibold mb-2">{currentQuestion.title}</h2>
+          <h2 className="text-2xl font-semibold mb-2">
+            {currentQuestion.title}
+            {!currentQuestion.required && (
+              <span className="text-sm font-normal text-foreground/40 ml-2">(optional)</span>
+            )}
+          </h2>
           {currentQuestion.description && (
             <p className="text-foreground/60">{currentQuestion.description}</p>
           )}

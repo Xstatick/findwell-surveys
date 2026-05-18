@@ -14,21 +14,21 @@ const therapistSurvey: SurveyDefinition = {
       id: "t1",
       type: "text",
       title: "How would you describe your niche or specialty?",
-      required: false,
+      required: true,
       nextQuestionId: "t2",
     },
     {
       id: "t2",
       type: "text",
       title: "What are your best sources for new client referrals, and how reliable or consistent are those sources?",
-      required: false,
+      required: true,
       nextQuestionId: "t3",
     },
     {
       id: "t3",
       type: "text",
       title: "What referral sources have you tried with little success?",
-      required: false,
+      required: true,
       nextQuestionId: "t4",
     },
     {
@@ -39,7 +39,7 @@ const therapistSurvey: SurveyDefinition = {
         { label: "Yes", value: "yes" },
         { label: "No", value: "no" },
       ],
-      required: false,
+      required: true,
       branchRules: [
         { optionValue: "yes", nextQuestionId: "t4a" },
         { optionValue: "no", nextQuestionId: "t5" },
@@ -49,7 +49,7 @@ const therapistSurvey: SurveyDefinition = {
       id: "t4a",
       type: "text",
       title: "Which platforms do you use?",
-      required: false,
+      required: true,
       nextQuestionId: "t5",
     },
     {
@@ -57,14 +57,14 @@ const therapistSurvey: SurveyDefinition = {
       type: "text",
       title: "Are there specific presenting concerns, age groups, or treatment modalities you prefer not to work with?",
       description: "We ask this to better understand how therapists define a good fit - not to make any judgment about your practice.",
-      required: false,
+      required: true,
       nextQuestionId: "t6",
     },
     {
       id: "t6",
       type: "text",
       title: "How do you currently determine whether a prospective client is a good fit before your first session?",
-      required: false,
+      required: true,
       nextQuestionId: "t7",
     },
     {
@@ -77,7 +77,7 @@ const therapistSurvey: SurveyDefinition = {
         { label: "1 to 2 hours", value: "1-to-2-hours" },
         { label: "More than 2 hours", value: "more-than-2-hours" },
       ],
-      required: false,
+      required: true,
       nextQuestionId: "t8",
     },
     {
@@ -90,14 +90,14 @@ const therapistSurvey: SurveyDefinition = {
         { label: "50 to 75%", value: "50-to-75" },
         { label: "More than 75%", value: "more-than-75" },
       ],
-      required: false,
+      required: true,
       nextQuestionId: "t8a",
     },
     {
       id: "t8a",
       type: "text",
       title: "What are the most common reasons a prospective client isn't a good fit?",
-      required: false,
+      required: true,
       nextQuestionId: "t9",
     },
     {
@@ -110,7 +110,7 @@ const therapistSurvey: SurveyDefinition = {
         { label: "6 to 10", value: "6-to-10" },
         { label: "More than 10", value: "more-than-10" },
       ],
-      required: false,
+      required: true,
       nextQuestionId: "t9a",
     },
     {
@@ -123,7 +123,7 @@ const therapistSurvey: SurveyDefinition = {
         { label: "I have significant room", value: "significant-room" },
         { label: "I'm just starting to build my practice", value: "just-starting" },
       ],
-      required: false,
+      required: true,
       nextQuestionId: "t10",
     },
     {
@@ -137,7 +137,7 @@ const therapistSurvey: SurveyDefinition = {
         { label: "Boomers", value: "boomers" },
         { label: "Mixed", value: "mixed" },
       ],
-      required: false,
+      required: true,
       nextQuestionId: "t11",
     },
     {
