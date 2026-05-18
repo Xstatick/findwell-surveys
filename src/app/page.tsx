@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
       <div className="w-full max-w-md text-center">
-        <h1 className="text-3xl font-semibold mb-3">FindWell</h1>
+        <h1 className="text-3xl font-semibold mb-3">Findwell</h1>
         <p className="text-foreground/60 mb-12">
           Help us build a better way to connect people with the right therapist.
         </p>

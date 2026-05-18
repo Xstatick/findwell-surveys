@@ -1,4 +1,4 @@
-# FindWell Discovery Surveys
+# Findwell Discovery Surveys
 
 Two anonymous surveys for early-stage discovery research - one for therapists, one for patients/clients.
 

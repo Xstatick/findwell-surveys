@@ -35,6 +35,7 @@ function ThankYouContent() {
     interests: [],
   });
   const [submitted, setSubmitted] = useState(false);
+  const [declined, setDeclined] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [emailTouched, setEmailTouched] = useState(false);
 
@@ -103,21 +104,21 @@ function ThankYouContent() {
           </p>
         </div>
 
-        {!isTherapist && !submitted && (
+        {!isTherapist && !submitted && !declined && (
           <div className="bg-foreground/5 rounded-2xl p-6 mb-8 text-sm text-foreground/70 leading-relaxed">
             <p className="font-medium text-foreground mb-2">Here&apos;s a bit about what this survey was for:</p>
             <p>
-              This survey is part of the early research for FindWell, a curated service we&apos;re building
+              This survey is part of the early research for Findwell, a curated service we&apos;re building
               that matches people with the right therapist on the first try - instead of cycling through
               bad fits the way most people do today. Our team includes a practicing clinical psychologist
               and operators with backgrounds in software, design, and health technology. We&apos;re positioning
-              FindWell as the more boutique alternative to the directory sites and big-box services that
+              Findwell as the more boutique alternative to the directory sites and big-box services that
               exist today, and your input is shaping what we build.
             </p>
           </div>
         )}
 
-        {!submitted && (
+        {!submitted && !declined && (
           <div className="bg-foreground/5 rounded-2xl p-8">
             <h2 className="text-xl font-medium mb-2">Want to stay involved?</h2>
             <p className="text-foreground/60 mb-6 text-sm">
@@ -201,6 +202,13 @@ function ThankYouContent() {
               >
                 {submitting ? "Sending..." : "Count me in"}
               </button>
+              <button
+                onClick={() => setDeclined(true)}
+                disabled={submitting}
+                className="w-full text-center text-sm text-foreground/50 hover:text-foreground transition-colors py-2 disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                No thanks
+              </button>
             </div>
           </div>
         )}
@@ -208,6 +216,12 @@ function ThankYouContent() {
         {submitted && (
           <p className="text-center text-amber-500 font-medium">
             We&apos;ll be in touch - thanks for your interest!
+          </p>
+        )}
+
+        {declined && (
+          <p className="text-center text-foreground/60">
+            Thanks again - we appreciate your time.
           </p>
         )}
       </div>

@@ -8,7 +8,7 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "FindWell - Discovery Survey",
+  title: "Findwell - Discovery Survey",
   description: "Help us build a better way to connect people with the right therapist.",
 };
 
