@@ -312,6 +312,17 @@ html, body {
   border-bottom: 1px solid var(--tm-border-subtle);
 }
 
+/* Only render contents on narrow viewports; matches the .qc-shell breakpoint. */
+.qc-mobile-only {
+  display: contents;
+}
+
+@media (min-width: 960px) {
+  .qc-mobile-only {
+    display: none;
+  }
+}
+
 /* ── Interactive choice cards ──────────────────────────────────────────────── */
 
 .fw-choice-card {

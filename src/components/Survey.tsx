@@ -9,6 +9,7 @@ import {
 } from "@/lib/types";
 import { getSupabase } from "@/lib/supabase";
 import { saveProgress, loadProgress, clearProgress } from "@/lib/storage";
+import Link from "next/link";
 import ProgressBar from "./ProgressBar";
 import RadioQuestion from "./questions/RadioQuestion";
 import TextQuestion from "./questions/TextQuestion";
@@ -46,9 +47,9 @@ function getQuestionPath(
           ? (matched.nextQuestionId ?? null)
           : (question.nextQuestionId ?? null);
       } else {
+        // No answer yet - follow the first branch to estimate remaining path length
         currentId =
           question.branchRules[0]?.nextQuestionId ??
-          null ??
           question.nextQuestionId ??
           null;
       }
@@ -272,7 +273,7 @@ export default function Survey({
             style={{ justifyContent: "center" }}
           >
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-              <a
+              <Link
                 href="/"
                 style={{
                   alignSelf: "flex-start",
@@ -289,7 +290,7 @@ export default function Survey({
                 }}
               >
                 <IconChevronLeft size={16} /> change perspective
-              </a>
+              </Link>
 
               <h2
                 style={{
@@ -463,7 +464,7 @@ export default function Survey({
 
       <main className="qc-content-pane">
         {/* Mobile progress bar */}
-        <div style={{ display: "contents" }} className="lg:hidden">
+        <div className="qc-mobile-only">
           <ProgressBar current={currentIndex + 1} total={totalQuestions} />
         </div>
 

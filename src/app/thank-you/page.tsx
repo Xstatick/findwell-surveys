@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { getSupabase } from "@/lib/supabase";
 import BrandPanel from "@/components/ui/BrandPanel";
 import { IconChevronRight, IconChevronLeft } from "@/components/ui/Icons";
@@ -29,11 +30,13 @@ function Field({
   label,
   value,
   onChange,
+  onBlur,
   type = "text",
 }: {
   label: string;
   value: string;
   onChange: (v: string) => void;
+  onBlur?: () => void;
   type?: string;
 }) {
   return (
@@ -48,6 +51,7 @@ function Field({
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onBlur={onBlur}
         className="fw-input"
         style={{
           background: "var(--tm-bg-subtle)", borderColor: "transparent",
@@ -235,6 +239,7 @@ function ThankYouContent() {
                       type="email"
                       value={contact.email}
                       onChange={(v) => setContact((c) => ({ ...c, email: v }))}
+                      onBlur={() => setEmailTouched(true)}
                     />
                     {showEmailError && (
                       <p style={{
@@ -292,7 +297,6 @@ function ThankYouContent() {
                     onClick={handleContactSubmit}
                     disabled={!emailIsValid || submitting}
                     className="fw-btn"
-                    onBlur={() => setEmailTouched(true)}
                   >
                     {submitting ? "Sending…" : "Count me in"}
                     {!submitting && <IconChevronRight size={18} />}
@@ -321,7 +325,7 @@ function ThankYouContent() {
             )}
 
             <div style={{ marginTop: 8 }}>
-              <a
+              <Link
                 href="/"
                 style={{
                   background: "transparent", border: "none", cursor: "pointer",
@@ -332,7 +336,7 @@ function ThankYouContent() {
                 }}
               >
                 <IconChevronLeft size={16} /> back to start
-              </a>
+              </Link>
             </div>
           </div>
         </div>
