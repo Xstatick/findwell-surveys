@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import Link from "next/link";
 import { getSupabase } from "@/lib/supabase";
+import BrandPanel from "@/components/ui/BrandPanel";
+import { IconChevronRight, IconChevronLeft } from "@/components/ui/Icons";
 
 interface ContactFormData {
   name: string;
@@ -24,15 +26,50 @@ const PATIENT_INTERESTS = [
   { label: "Just keep me updated", value: "updates" },
 ];
 
+function Field({
+  label,
+  value,
+  onChange,
+  onBlur,
+  type = "text",
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  onBlur?: () => void;
+  type?: string;
+}) {
+  return (
+    <label style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+      <span style={{
+        fontFamily: "var(--tm-font-sans)", fontSize: 12, letterSpacing: "0.05em",
+        textTransform: "uppercase", color: "var(--tm-text-tertiary)", fontWeight: 600,
+      }}>
+        {label}
+      </span>
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onBlur={onBlur}
+        className="fw-input"
+        style={{
+          background: "var(--tm-bg-subtle)", borderColor: "transparent",
+          fontSize: 15.5, padding: "13px 16px", borderRadius: 12,
+        }}
+      />
+    </label>
+  );
+}
+
 function ThankYouContent() {
   const searchParams = useSearchParams();
   const surveyType = searchParams.get("from") as "therapist" | "patient" | null;
+  const isTherapist = surveyType === "therapist";
+  const interests = isTherapist ? THERAPIST_INTERESTS : PATIENT_INTERESTS;
 
   const [contact, setContact] = useState<ContactFormData>({
-    name: "",
-    email: "",
-    phone: "",
-    interests: [],
+    name: "", email: "", phone: "", interests: [],
   });
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -41,24 +78,20 @@ function ThankYouContent() {
   const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email.trim());
   const showEmailError = emailTouched && contact.email.length > 0 && !emailIsValid;
 
-  const isTherapist = surveyType === "therapist";
-  const interests = isTherapist ? THERAPIST_INTERESTS : PATIENT_INTERESTS;
-
-  const toggleInterest = (value: string) => {
+  const toggleInterest = (v: string) => {
     setContact((prev) => ({
       ...prev,
-      interests: prev.interests.includes(value)
-        ? prev.interests.filter((i) => i !== value)
-        : [...prev.interests, value],
+      interests: prev.interests.includes(v)
+        ? prev.interests.filter((i) => i !== v)
+        : [...prev.interests, v],
     }));
   };
 
   const handleContactSubmit = async () => {
     if (!surveyType) return;
-
     setSubmitting(true);
-    const tableName = isTherapist ? "therapist_responses" : "patient_responses";
 
+    const tableName = isTherapist ? "therapist_responses" : "patient_responses";
     const contactData = {
       name: contact.name || undefined,
       email: contact.email || undefined,
@@ -68,7 +101,6 @@ function ThankYouContent() {
 
     const responseId = sessionStorage.getItem(`findwell-${surveyType}-response-id`);
     if (!responseId) {
-      console.error("No response ID found in session - cannot attach contact info");
       setSubmitting(false);
       setSubmitted(true);
       return;
@@ -79,9 +111,7 @@ function ThankYouContent() {
       .update({ contact_optin: contactData })
       .eq("id", responseId);
 
-    if (error) {
-      console.error("Contact submission error:", error);
-    } else {
+    if (!error) {
       sessionStorage.removeItem(`findwell-${surveyType}-response-id`);
     }
 
@@ -89,135 +119,242 @@ function ThankYouContent() {
     setSubmitted(true);
   };
 
-  const canSubmitContact = emailIsValid;
-
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
-      <div className="w-full max-w-lg">
-        <div className="text-center mb-10">
-          <h1 className="text-3xl font-semibold mb-4">Thank you!</h1>
-          <p className="text-foreground/60 text-lg">
-            {isTherapist
-              ? "Your input is genuinely valuable and will directly shape what we build."
-              : "Your input is genuinely valuable, and reading these answers is going to directly shape what we build."}
-          </p>
-        </div>
-
-        {!isTherapist && !submitted && (
-          <div className="bg-foreground/5 rounded-2xl p-6 mb-8 text-sm text-foreground/70 leading-relaxed">
-            <p className="font-medium text-foreground mb-2">Here&apos;s a bit about what this survey was for:</p>
-            <p>
-              This survey is part of the early research for FindWell, a curated service we&apos;re building
-              that matches people with the right therapist on the first try - instead of cycling through
-              bad fits the way most people do today. Our team includes a practicing clinical psychologist
-              and operators with backgrounds in software, design, and health technology. We&apos;re positioning
-              FindWell as the more boutique alternative to the directory sites and big-box services that
-              exist today, and your input is shaping what we build.
+    <div className="qc-shell">
+      <BrandPanel
+        eyebrow="Response received"
+        headline={
+          <>
+            <em style={{ fontStyle: "italic" }}>thank</em>
+            <br />you.
+          </>
+        }
+        support={
+          isTherapist
+            ? "Your input is genuinely valuable and will directly shape what we build."
+            : "Reading your answers is going to directly shape what we build."
+        }
+      >
+        {!isTherapist && (
+          <div style={{
+            marginTop: 8, padding: "18px 20px",
+            background: "var(--tm-bg-surface)", borderRadius: 14,
+            boxShadow: "inset 0 0 0 1px var(--tm-border-default)",
+            maxWidth: 420,
+          }}>
+            <div style={{
+              fontFamily: "var(--tm-font-sans)", fontSize: 12.5, letterSpacing: "0.06em",
+              textTransform: "uppercase", color: "var(--tm-text-tertiary)",
+              fontWeight: 600, marginBottom: 10,
+            }}>
+              About this research
+            </div>
+            <p style={{
+              fontFamily: "var(--tm-font-sans)", fontSize: 13.5, lineHeight: 1.55,
+              color: "var(--tm-text-secondary)", margin: 0,
+            }}>
+              This survey is part of early research for{" "}
+              <strong style={{ color: "var(--tm-text-primary)" }}>Findwell</strong>, a curated
+              service that matches people with the right therapist on the first try — instead of
+              cycling through bad fits. Our team includes a practicing clinical psychologist and
+              operators in software, design, and health technology.
             </p>
           </div>
         )}
+      </BrandPanel>
 
-        {!submitted && (
-          <div className="bg-foreground/5 rounded-2xl p-8">
-            <h2 className="text-xl font-medium mb-2">Want to stay involved?</h2>
-            <p className="text-foreground/60 mb-6 text-sm">
-              {isTherapist
-                ? "If you'd like to stay involved - whether that's joining a future focus group, a brief call, or simply hearing about what we develop - we'd love to stay in touch. This whole section is optional, but if you do share your info, we'll need a valid email so we can actually reach you."
-                : "If you'd like to stay involved - whether that's joining a future conversation, getting early access when there's something to show, or simply hearing about how this develops - we'd love to stay in touch. This whole section is optional, but if you do share your info, we'll need a valid email so we can actually reach you."}
-            </p>
-
-            <div className="space-y-4">
-              <input
-                type="text"
-                placeholder="Name"
-                value={contact.name}
-                onChange={(e) => setContact((prev) => ({ ...prev, name: e.target.value }))}
-                className="w-full p-3 rounded-xl border-2 border-foreground/10 bg-transparent text-foreground placeholder:text-foreground/30 focus:border-amber-500 focus:outline-none transition-colors"
-              />
-              <div>
-                <input
-                  type="email"
-                  placeholder="Email"
-                  value={contact.email}
-                  onChange={(e) => setContact((prev) => ({ ...prev, email: e.target.value }))}
-                  onBlur={() => setEmailTouched(true)}
-                  className={`w-full p-3 rounded-xl border-2 bg-transparent text-foreground placeholder:text-foreground/30 focus:outline-none transition-colors ${
-                    showEmailError
-                      ? "border-red-500 focus:border-red-500"
-                      : "border-foreground/10 focus:border-amber-500"
-                  }`}
-                />
-                {showEmailError && (
-                  <p className="text-sm text-red-500 mt-1.5 ml-1">Please enter a valid email address.</p>
-                )}
+      <main className="qc-content-pane">
+        <div className="qc-content-inner">
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 24 }}>
+            {/* Submitted badge */}
+            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+              <div style={{
+                width: 56, height: 56, borderRadius: 18,
+                background: "var(--app-butter)",
+                display: "grid", placeItems: "center",
+              }}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                  stroke="var(--app-plum)" strokeWidth="2.4"
+                  strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
               </div>
-              {isTherapist && (
-                <input
-                  type="tel"
-                  placeholder="Phone (optional)"
-                  value={contact.phone}
-                  onChange={(e) => setContact((prev) => ({ ...prev, phone: e.target.value }))}
-                  className="w-full p-3 rounded-xl border-2 border-foreground/10 bg-transparent text-foreground placeholder:text-foreground/30 focus:border-amber-500 focus:outline-none transition-colors"
-                />
-              )}
+              <div>
+                <div style={{
+                  fontFamily: "var(--tm-font-sans)", fontSize: 12.5, letterSpacing: "0.08em",
+                  textTransform: "uppercase", color: "var(--tm-text-tertiary)", fontWeight: 600,
+                }}>
+                  Submitted
+                </div>
+                <h2 style={{
+                  fontFamily: "var(--tm-font-sans)", fontWeight: 600,
+                  fontSize: 28, lineHeight: 1.2,
+                  letterSpacing: "-0.015em", color: "var(--tm-text-primary)", margin: 0,
+                }}>
+                  You&apos;re all set.
+                </h2>
+              </div>
+            </div>
 
-              <div className="pt-2">
-                <p className="text-sm text-foreground/50 mb-3">I&apos;m interested in:</p>
-                <div className="space-y-2">
-                  {interests.map((interest) => (
-                    <label
-                      key={interest.value}
-                      className="flex items-center gap-3 cursor-pointer"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={contact.interests.includes(interest.value)}
-                        onChange={() => toggleInterest(interest.value)}
-                        className="sr-only"
-                      />
-                      <div
-                        className={`w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-                          contact.interests.includes(interest.value)
-                            ? "border-amber-500 bg-amber-500"
-                            : "border-foreground/30"
-                        }`}
-                      >
-                        {contact.interests.includes(interest.value) && (
-                          <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                          </svg>
-                        )}
-                      </div>
-                      <span className="text-sm">{interest.label}</span>
-                    </label>
-                  ))}
+            {/* Contact opt-in form */}
+            {!submitted && (
+              <div style={{
+                padding: "clamp(24px, 3vw, 32px)",
+                background: "var(--tm-bg-surface)",
+                borderRadius: 20,
+                boxShadow: "inset 0 0 0 1px var(--tm-border-default), 0 4px 24px rgba(71,36,57,0.04)",
+                display: "flex", flexDirection: "column", gap: 18,
+              }}>
+                <div>
+                  <h3 style={{
+                    fontFamily: "var(--tm-font-sans)", fontWeight: 600,
+                    fontSize: 24, lineHeight: 1.2,
+                    letterSpacing: "-0.015em", color: "var(--tm-text-primary)", margin: 0,
+                  }}>
+                    Want to stay involved?
+                  </h3>
+                  <p style={{
+                    fontFamily: "var(--tm-font-sans)", fontSize: 14, lineHeight: 1.55,
+                    color: "var(--tm-text-secondary)", margin: "8px 0 0", maxWidth: 520,
+                  }}>
+                    {isTherapist
+                      ? "Whether that's joining a future focus group, a brief call, or simply hearing about what we develop — drop your details below. Optional, but we need a valid email to actually reach you."
+                      : "Whether that's a future conversation, early access, or simply hearing about how this develops — drop your details below. Optional, but we need a valid email to actually reach you."}
+                  </p>
+                </div>
+
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                  gap: 12,
+                }}>
+                  <Field
+                    label="Name"
+                    value={contact.name}
+                    onChange={(v) => setContact((c) => ({ ...c, name: v }))}
+                  />
+                  <div>
+                    <Field
+                      label="Email"
+                      type="email"
+                      value={contact.email}
+                      onChange={(v) => setContact((c) => ({ ...c, email: v }))}
+                      onBlur={() => setEmailTouched(true)}
+                    />
+                    {showEmailError && (
+                      <p style={{
+                        fontFamily: "var(--tm-font-sans)", fontSize: 12.5,
+                        color: "var(--tm-status-danger-fg, #C65A51)", margin: "4px 0 0 2px",
+                      }}>
+                        Please enter a valid email address.
+                      </p>
+                    )}
+                  </div>
+                  {isTherapist && (
+                    <Field
+                      label="Phone (optional)"
+                      type="tel"
+                      value={contact.phone}
+                      onChange={(v) => setContact((c) => ({ ...c, phone: v }))}
+                    />
+                  )}
+                </div>
+
+                <div>
+                  <div style={{
+                    fontFamily: "var(--tm-font-sans)", fontSize: 13,
+                    color: "var(--tm-text-tertiary)", fontWeight: 500, marginBottom: 10,
+                  }}>
+                    I&apos;m interested in:
+                  </div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                    {interests.map((it) => {
+                      const sel = contact.interests.includes(it.value);
+                      return (
+                        <button
+                          key={it.value}
+                          type="button"
+                          onClick={() => toggleInterest(it.value)}
+                          style={{
+                            border: "none", cursor: "pointer",
+                            padding: "10px 16px", borderRadius: 999,
+                            background: sel ? "var(--app-plum)" : "transparent",
+                            color: sel ? "var(--tm-text-inverse)" : "var(--tm-text-primary)",
+                            boxShadow: "inset 0 0 0 1.5px " + (sel ? "var(--app-plum)" : "var(--tm-border-default)"),
+                            fontFamily: "var(--tm-font-sans)", fontSize: 13.5, fontWeight: 500,
+                            transition: "all 160ms",
+                          }}
+                        >
+                          {it.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 4 }}>
+                  <button
+                    onClick={handleContactSubmit}
+                    disabled={!emailIsValid || submitting}
+                    className="fw-btn"
+                  >
+                    {submitting ? "Sending…" : "Count me in"}
+                    {!submitting && <IconChevronRight size={18} />}
+                  </button>
                 </div>
               </div>
+            )}
 
-              <button
-                onClick={handleContactSubmit}
-                disabled={!canSubmitContact || submitting}
-                className="w-full px-8 py-3 rounded-xl bg-amber-500 text-white font-medium hover:bg-amber-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed mt-2"
+            {/* Confirmed state */}
+            {submitted && (
+              <div style={{
+                padding: "22px 24px", borderRadius: 16,
+                background: "var(--app-butter)",
+                fontFamily: "var(--tm-font-sans)", fontSize: 15, fontWeight: 500,
+                color: "var(--tm-text-primary)",
+                display: "flex", alignItems: "center", gap: 12,
+                maxWidth: 600,
+              }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                  stroke="var(--app-plum)" strokeWidth="2.4"
+                  strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+                We&apos;ll be in touch — thanks for your interest.
+              </div>
+            )}
+
+            <div style={{ marginTop: 8 }}>
+              <Link
+                href="/"
+                style={{
+                  background: "transparent", border: "none", cursor: "pointer",
+                  color: "var(--tm-text-tertiary)",
+                  fontFamily: "var(--tm-font-sans)", fontSize: 13.5,
+                  display: "inline-flex", alignItems: "center", gap: 6,
+                  textDecoration: "none",
+                }}
               >
-                {submitting ? "Sending..." : "Count me in"}
-              </button>
+                <IconChevronLeft size={16} /> back to start
+              </Link>
             </div>
           </div>
-        )}
-
-        {submitted && (
-          <p className="text-center text-amber-500 font-medium">
-            We&apos;ll be in touch - thanks for your interest!
-          </p>
-        )}
-      </div>
+        </div>
+      </main>
     </div>
   );
 }
 
 export default function ThankYouPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-foreground/40">Loading...</div>}>
+    <Suspense fallback={
+      <div style={{
+        minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
+        color: "var(--tm-text-tertiary)", fontFamily: "var(--tm-font-sans)",
+      }}>
+        Loading…
+      </div>
+    }>
       <ThankYouContent />
     </Suspense>
   );

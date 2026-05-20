@@ -10,36 +10,45 @@ interface RadioQuestionProps {
 
 export default function RadioQuestion({ question, value, onChange }: RadioQuestionProps) {
   return (
-    <div className="space-y-3">
-      {question.options?.map((option) => (
-        <label
-          key={option.value}
-          className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
-            value === option.value
-              ? "border-amber-500 bg-amber-500/10"
-              : "border-foreground/10 hover:border-foreground/25"
-          }`}
-        >
-          <input
-            type="radio"
-            name={question.id}
-            value={option.value}
-            checked={value === option.value}
-            onChange={(e) => onChange(e.target.value)}
-            className="sr-only"
-          />
-          <div
-            className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-              value === option.value ? "border-amber-500" : "border-foreground/30"
-            }`}
+    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      {question.options?.map((option) => {
+        const sel = value === option.value;
+        return (
+          <label
+            key={option.value}
+            className="fw-choice-card"
+            data-selected={sel ? "true" : "false"}
           >
-            {value === option.value && (
-              <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-            )}
-          </div>
-          <span className="text-base">{option.label}</span>
-        </label>
-      ))}
+            <input
+              type="radio"
+              name={question.id}
+              value={option.value}
+              checked={sel}
+              onChange={(e) => onChange(e.target.value)}
+              style={{ position: "absolute", opacity: 0, pointerEvents: "none" }}
+            />
+            <span style={{
+              width: 22, height: 22, borderRadius: "50%", flexShrink: 0,
+              border: "2px solid " + (sel ? "var(--app-peach-500)" : "var(--tm-paper-300)"),
+              display: "grid", placeItems: "center",
+              transition: "border-color 160ms",
+            }}>
+              {sel && (
+                <span style={{
+                  width: 11, height: 11, borderRadius: "50%",
+                  background: "var(--app-peach-500)",
+                }} />
+              )}
+            </span>
+            <span style={{
+              fontFamily: "var(--tm-font-sans)", fontSize: 16,
+              color: "var(--tm-text-primary)", lineHeight: 1.4, fontWeight: 500,
+            }}>
+              {option.label}
+            </span>
+          </label>
+        );
+      })}
     </div>
   );
 }
