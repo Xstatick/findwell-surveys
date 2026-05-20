@@ -6,8 +6,10 @@ import { SurveyDefinition } from "@/lib/types";
 const patientSurvey: SurveyDefinition = {
   id: "patient",
   title: "Patient Discovery Survey",
-  description: "Help us understand what matters most when you look for a therapist.",
-  introText: "Your responses are completely anonymous. I'm researching how people experience finding mental health support, and I'd love your honest take. There are no right or wrong answers, and you can skip anything you don't want to answer. At the end, you'll have the option to share your contact information if you'd like to stay involved. This should take about 10 minutes.",
+  description:
+    "Help us understand what matters most when you look for a therapist.",
+  introText:
+    "Your responses are completely anonymous. We're researching how people experience finding mental health support, and we'd love your honest take. There are no right or wrong answers. At the end, you'll have the option to share your contact information if you'd like to stay involved. This should take about 10 minutes.",
   firstQuestionId: "p1",
   questions: [
     // Section 1: For Everyone
@@ -19,7 +21,10 @@ const patientSurvey: SurveyDefinition = {
       options: [
         { label: "Yes, and I have tried it", value: "tried" },
         { label: "Yes, but I've never tried it", value: "considered" },
-        { label: "No, I haven't really considered it", value: "not-considered" },
+        {
+          label: "No, I haven't really considered it",
+          value: "not-considered",
+        },
       ],
       branchRules: [
         { optionValue: "tried", nextQuestionId: "p2" },
@@ -32,7 +37,8 @@ const patientSurvey: SurveyDefinition = {
     {
       id: "p2",
       type: "radio",
-      title: "Roughly how long ago was your most recent search for a therapist?",
+      title:
+        "Roughly how long ago was your most recent search for a therapist?",
       options: [
         { label: "Within the last year", value: "last-year" },
         { label: "1 to 3 years ago", value: "1-to-3" },
@@ -45,7 +51,8 @@ const patientSurvey: SurveyDefinition = {
     {
       id: "p3",
       type: "text",
-      title: "The most recent time you tried to find a therapist, where did you start looking?",
+      title:
+        "The most recent time you tried to find a therapist, where did you start looking?",
       required: false,
       nextQuestionId: "p4",
     },
@@ -53,15 +60,18 @@ const patientSurvey: SurveyDefinition = {
       id: "p4",
       type: "text",
       title: "After that initial start, walk me through what came next.",
-      description: "We're curious about the whole experience - who you contacted, who you talked to, what worked, what didn't.",
+      description:
+        "We're curious about the whole experience - who you contacted, who you talked to, what worked, what didn't.",
       required: false,
       nextQuestionId: "p5",
     },
     {
       id: "p5",
       type: "radio",
-      title: "Roughly how many therapists did you reach out to before you found one you stuck with?",
-      description: "Counts every therapist you contacted, even ones who never responded or who you didn't end up meeting.",
+      title:
+        "Roughly how many therapists did you reach out to before you found one you stuck with?",
+      description:
+        "Counts every therapist you contacted, even ones who never responded or who you didn't end up meeting.",
       options: [
         { label: "1", value: "1" },
         { label: "2 to 3", value: "2-to-3" },
@@ -75,7 +85,8 @@ const patientSurvey: SurveyDefinition = {
     {
       id: "p6",
       type: "radio",
-      title: "Of the therapists you actually met with, how many did you cycle through before finding one who felt right?",
+      title:
+        "Of the therapists you actually met with, how many did you cycle through before finding one who felt right?",
       options: [
         { label: "1 - the first one was a good fit", value: "1" },
         { label: "2 to 3", value: "2-to-3" },
@@ -88,14 +99,16 @@ const patientSurvey: SurveyDefinition = {
     {
       id: "p7",
       type: "text",
-      title: "If you tried therapists who didn't feel like a good fit, what made it not work?",
+      title:
+        "If you tried therapists who didn't feel like a good fit, what made it not work?",
       required: false,
       nextQuestionId: "p8",
     },
     {
       id: "p8",
       type: "radio",
-      title: "Was there ever a point where you considered giving up on finding a therapist altogether?",
+      title:
+        "Was there ever a point where you considered giving up on finding a therapist altogether?",
       options: [
         { label: "Yes", value: "yes" },
         { label: "No", value: "no" },
@@ -118,7 +131,8 @@ const patientSurvey: SurveyDefinition = {
     {
       id: "p9",
       type: "text",
-      title: "What, if anything, would have made finding the right therapist easier the first time?",
+      title:
+        "What, if anything, would have made finding the right therapist easier the first time?",
       required: false,
       nextQuestionId: null,
     },
@@ -141,7 +155,8 @@ const patientSurvey: SurveyDefinition = {
     {
       id: "p12",
       type: "text",
-      title: "If you imagined trying to find a therapist tomorrow, where would you start?",
+      title:
+        "If you imagined trying to find a therapist tomorrow, where would you start?",
       required: false,
       nextQuestionId: "p13",
     },
@@ -157,14 +172,16 @@ const patientSurvey: SurveyDefinition = {
     {
       id: "p14",
       type: "text",
-      title: "If a close friend told you they were thinking about trying therapy, what advice would you give them about how to find one?",
+      title:
+        "If a close friend told you they were thinking about trying therapy, what advice would you give them about how to find one?",
       required: false,
       nextQuestionId: "p15",
     },
     {
       id: "p15",
       type: "text",
-      title: "Is there anything that has shaped your view of therapy - positive or negative?",
+      title:
+        "Is there anything that has shaped your view of therapy - positive or negative?",
       required: false,
       nextQuestionId: null,
     },

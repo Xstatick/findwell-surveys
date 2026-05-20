@@ -6,8 +6,10 @@ import { SurveyDefinition } from "@/lib/types";
 const therapistSurvey: SurveyDefinition = {
   id: "therapist",
   title: "Therapist Discovery Survey",
-  description: "Help us understand your practice and what you look for in referral tools.",
-  introText: "Thank you for taking a few minutes. We're researching the challenges therapists face when finding and connecting with the right clients, and your perspective will directly shape what we build. Your responses are completely anonymous, and you can skip anything you don't want to answer. At the end, you'll have the option to share your contact information if you'd like to be involved in future conversations. This should take less than 10 minutes.",
+  description:
+    "Help us understand your practice and what you look for in referral tools.",
+  introText:
+    "Thank you for taking a few minutes. We're researching the challenges therapists face when finding and connecting with the right clients, and your perspective will directly shape what we build. Your responses are completely anonymous. At the end, you'll have the option to share your contact information if you'd like to be involved in future conversations. This should take less than 10 minutes.",
   firstQuestionId: "t1",
   questions: [
     {
@@ -20,7 +22,8 @@ const therapistSurvey: SurveyDefinition = {
     {
       id: "t2",
       type: "text",
-      title: "What are your best sources for new client referrals, and how reliable or consistent are those sources?",
+      title:
+        "What are your best sources for new client referrals, and how reliable or consistent are those sources?",
       required: false,
       nextQuestionId: "t3",
     },
@@ -55,22 +58,26 @@ const therapistSurvey: SurveyDefinition = {
     {
       id: "t5",
       type: "text",
-      title: "Are there specific presenting concerns, age groups, or treatment modalities you prefer not to work with?",
-      description: "We ask this to better understand how therapists define a good fit - not to make any judgment about your practice.",
+      title:
+        "Are there specific presenting concerns, age groups, or treatment modalities you prefer not to work with?",
+      description:
+        "We ask this to better understand how therapists define a good fit - not to make any judgment about your practice.",
       required: false,
       nextQuestionId: "t6",
     },
     {
       id: "t6",
       type: "text",
-      title: "How do you currently determine whether a prospective client is a good fit before your first session?",
+      title:
+        "How do you currently determine whether a prospective client is a good fit before your first session?",
       required: false,
       nextQuestionId: "t7",
     },
     {
       id: "t7",
       type: "radio",
-      title: "How much time on average do you spend on intake and screening activities before taking on a new client?",
+      title:
+        "How much time on average do you spend on intake and screening activities before taking on a new client?",
       options: [
         { label: "Less than 30 minutes", value: "less-than-30" },
         { label: "30 to 60 minutes", value: "30-to-60" },
@@ -83,7 +90,8 @@ const therapistSurvey: SurveyDefinition = {
     {
       id: "t8",
       type: "radio",
-      title: "Of the prospective clients you meet with for an initial consultation, roughly what percentage do you continue working with?",
+      title:
+        "Of the prospective clients you meet with for an initial consultation, roughly what percentage do you continue working with?",
       options: [
         { label: "Less than 25%", value: "less-than-25" },
         { label: "25 to 50%", value: "25-to-50" },
@@ -96,14 +104,16 @@ const therapistSurvey: SurveyDefinition = {
     {
       id: "t8a",
       type: "text",
-      title: "What are the most common reasons a prospective client isn't a good fit?",
+      title:
+        "What are the most common reasons a prospective client isn't a good fit?",
       required: false,
       nextQuestionId: "t9",
     },
     {
       id: "t9",
       type: "radio",
-      title: "How many new clients would you ideally want to add to your practice?",
+      title:
+        "How many new clients would you ideally want to add to your practice?",
       options: [
         { label: "1 to 2", value: "1-to-2" },
         { label: "3 to 5", value: "3-to-5" },
@@ -121,7 +131,10 @@ const therapistSurvey: SurveyDefinition = {
         { label: "I'm at capacity", value: "at-capacity" },
         { label: "I have some room", value: "some-room" },
         { label: "I have significant room", value: "significant-room" },
-        { label: "I'm just starting to build my practice", value: "just-starting" },
+        {
+          label: "I'm just starting to build my practice",
+          value: "just-starting",
+        },
       ],
       required: false,
       nextQuestionId: "t10",
@@ -129,7 +142,8 @@ const therapistSurvey: SurveyDefinition = {
     {
       id: "t10",
       type: "multi-select",
-      title: "What age range and/or generational groups represent the bulk of your clients?",
+      title:
+        "What age range and/or generational groups represent the bulk of your clients?",
       options: [
         { label: "Gen Z", value: "gen-z" },
         { label: "Millennials", value: "millennials" },

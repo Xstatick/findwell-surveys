@@ -9,49 +9,57 @@ interface MultiSelectQuestionProps {
 }
 
 export default function MultiSelectQuestion({ question, value, onChange }: MultiSelectQuestionProps) {
-  const toggleOption = (optionValue: string) => {
-    if (value.includes(optionValue)) {
-      onChange(value.filter((v) => v !== optionValue));
-    } else {
-      onChange([...value, optionValue]);
-    }
+  const toggle = (v: string) => {
+    onChange(value.includes(v) ? value.filter((x) => x !== v) : [...value, v]);
   };
 
   return (
-    <div className="space-y-3">
-      <p className="text-sm text-foreground/50 mb-1">Select all that apply</p>
-      {question.options?.map((option) => {
-        const isSelected = value.includes(option.value);
-        return (
-          <label
-            key={option.value}
-            className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
-              isSelected
-                ? "border-amber-500 bg-amber-500/10"
-                : "border-foreground/10 hover:border-foreground/25"
-            }`}
-          >
-            <input
-              type="checkbox"
-              checked={isSelected}
-              onChange={() => toggleOption(option.value)}
-              className="sr-only"
-            />
-            <div
-              className={`w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-                isSelected ? "border-amber-500 bg-amber-500" : "border-foreground/30"
-              }`}
+    <div>
+      <div style={{
+        fontFamily: "var(--tm-font-sans)", fontSize: 13.5,
+        color: "var(--tm-text-tertiary)", marginBottom: 12, fontWeight: 500,
+      }}>
+        Select all that apply
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        {question.options?.map((option) => {
+          const sel = value.includes(option.value);
+          return (
+            <label
+              key={option.value}
+              className="fw-choice-card"
+              data-selected={sel ? "true" : "false"}
             >
-              {isSelected && (
-                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              )}
-            </div>
-            <span className="text-base">{option.label}</span>
-          </label>
-        );
-      })}
+              <input
+                type="checkbox"
+                checked={sel}
+                onChange={() => toggle(option.value)}
+                style={{ position: "absolute", opacity: 0, pointerEvents: "none" }}
+              />
+              <span style={{
+                width: 22, height: 22, borderRadius: 7, flexShrink: 0,
+                background: sel ? "var(--app-peach-500)" : "transparent",
+                border: "2px solid " + (sel ? "var(--app-peach-500)" : "var(--tm-paper-300)"),
+                display: "grid", placeItems: "center",
+                transition: "all 160ms",
+              }}>
+                {sel && (
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                    stroke="#FDFBFA" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                )}
+              </span>
+              <span style={{
+                fontFamily: "var(--tm-font-sans)", fontSize: 16,
+                color: "var(--tm-text-primary)", lineHeight: 1.4, fontWeight: 500,
+              }}>
+                {option.label}
+              </span>
+            </label>
+          );
+        })}
+      </div>
     </div>
   );
 }
