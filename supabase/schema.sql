@@ -29,6 +29,13 @@ alter table patient_responses enable row level security;
 grant select, insert, update on therapist_responses to anon;
 grant select, insert, update on patient_responses to anon;
 
+-- Grant read access to the service_role (used by the admin reporting UI via the
+-- secret key). service_role bypasses RLS, so a SELECT grant lets it read every
+-- row. This role is only ever used server-side; the secret key is never exposed
+-- to the browser.
+grant select on therapist_responses to service_role;
+grant select on patient_responses to service_role;
+
 -- Insert-only policy for anonymous users (the anon role)
 -- Anyone can insert, but nobody can read/update/delete via the API
 create policy "Allow anonymous inserts" on therapist_responses
