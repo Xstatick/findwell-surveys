@@ -14,6 +14,8 @@ export interface Question {
   id: string;
   type: QuestionType;
   title: string;
+  // Short, grid-friendly header for the admin report (falls back to title)
+  shortLabel?: string;
   description?: string;
   options?: QuestionOption[];
   required?: boolean;
@@ -46,4 +48,13 @@ export interface SurveySubmission {
   responses: SurveyAnswers;
   submitted_at: string;
   contact_optin: ContactInfo | null;
+}
+
+// A stored survey response row, as returned from Supabase.
+export interface ResponseRow {
+  id: string;
+  responses: SurveyAnswers;
+  contact_optin: ContactInfo | null;
+  submitted_at: string;
+  created_at: string;
 }
