@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 import LogoutButton from "@/components/admin/LogoutButton";
-import { LogoMark, IconUser, IconBriefcase, IconChevronRight } from "@/components/ui/Icons";
+import { LogoMark, IconUser, IconBriefcase, IconChevronRight, IconClock } from "@/components/ui/Icons";
 
 export const dynamic = "force-dynamic";
 
@@ -18,12 +18,14 @@ function ReportCard({
   accent,
   title,
   count,
+  subtitle,
   icon,
 }: {
   href: string;
   accent: "peach" | "lavender";
   title: string;
-  count: number | null;
+  count?: number | null;
+  subtitle?: string;
   icon: React.ReactNode;
 }) {
   const accentBg = accent === "peach" ? "var(--app-peach)" : "var(--app-lavender)";
@@ -47,7 +49,10 @@ function ReportCard({
       <div style={{ flex: 1 }}>
         <div style={{ fontSize: 18, fontWeight: 600, letterSpacing: "-0.01em" }}>{title}</div>
         <div style={{ fontSize: 14, color: "var(--tm-text-tertiary)", marginTop: 4 }}>
-          {count === null ? "—" : `${count} response${count === 1 ? "" : "s"}`}
+          {subtitle ??
+            (count === null || count === undefined
+              ? "—"
+              : `${count} response${count === 1 ? "" : "s"}`)}
         </div>
       </div>
       <div style={{ marginTop: 4, color: "var(--tm-text-tertiary)" }}>
@@ -131,6 +136,13 @@ export default async function AdminHomePage() {
             title="Therapist Survey"
             count={therapistCount}
             icon={<IconBriefcase />}
+          />
+          <ReportCard
+            href="/admin/activity"
+            accent="peach"
+            title="Activity"
+            subtitle="Visits, and how many started vs finished"
+            icon={<IconClock size={18} />}
           />
         </div>
       </div>

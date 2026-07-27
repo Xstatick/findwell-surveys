@@ -67,3 +67,44 @@ create index if not exists idx_therapist_responses_submitted_at on therapist_res
 create index if not exists idx_patient_responses_submitted_at on patient_responses (submitted_at desc);
 create index if not exists idx_therapist_responses_contact on therapist_responses (contact_optin) where contact_optin is not null;
 create index if not exists idx_patient_responses_contact on patient_responses (contact_optin) where contact_optin is not null;
+
+-- ---------------------------------------------------------------------------
+-- Anonymous usage events
+-- ---------------------------------------------------------------------------
+-- Powers the "Activity" panel in the admin area: how many people visit, how
+-- many start a survey, and where people stop. Deliberately minimal:
+--
+--   * session_id is a random id generated in the browser per visit. It is not
+--     derived from anything about the person and cannot be traced back to them.
+--   * question_id records only WHICH question was on screen, never the answer.
+--     Nothing a respondent types is stored here - answers only ever reach the
+--     database when they press Submit, in the *_responses tables.
+--   * No IP address, no user agent, no cookies.
+
+create table if not exists survey_events (
+  id uuid default gen_random_uuid() primary key,
+  session_id text not null,
+  survey_type text,
+  event text not null,
+  question_id text,
+  path text,
+  created_at timestamptz not null default now()
+);
+
+alter table survey_events enable row level security;
+
+-- Respondents may only append events. There is no select/update/delete policy,
+-- so the anon role can never read them back.
+grant insert on survey_events to anon;
+
+create policy "Allow anonymous event inserts" on survey_events
+  for insert
+  to anon
+  with check (true);
+
+-- The admin Activity panel reads these via the service role (bypasses RLS).
+grant select on survey_events to service_role;
+
+create index if not exists idx_survey_events_created_at on survey_events (created_at desc);
+create index if not exists idx_survey_events_type_event on survey_events (survey_type, event);
+create index if not exists idx_survey_events_session on survey_events (session_id);

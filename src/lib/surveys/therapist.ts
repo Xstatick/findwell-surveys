@@ -5,7 +5,7 @@ export const therapistSurvey: SurveyDefinition = {
   title: "Therapist Discovery Survey",
   description: "Help us understand your practice and what you look for in referral tools.",
   introText:
-    "Thank you for taking a few minutes. We're researching the challenges therapists face when finding and connecting with the right clients, and your perspective will directly shape what we build. Your responses are completely anonymous. At the end, you'll have the option to share your contact information if you'd like to be involved in future conversations. This should take less than 10 minutes.",
+    "Thank you for taking a few minutes. We're researching the challenges therapists face when finding and connecting with the right clients, and your perspective will directly shape what we build. Your responses are completely anonymous - we never ask who you are, and nothing you write is saved unless you press Submit at the end. We do keep an anonymous tally of how many people visit and how far they get, so we know whether the survey itself is working. At the end, you'll have the option to share your contact information if you'd like to be involved in future conversations. This should take less than 10 minutes.",
   firstQuestionId: "t1",
   questions: [
     {

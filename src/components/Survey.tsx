@@ -9,6 +9,7 @@ import {
 } from "@/lib/types";
 import { getSupabase } from "@/lib/supabase";
 import { saveProgress, loadProgress, clearProgress } from "@/lib/storage";
+import { logEvent } from "@/lib/events";
 import Link from "next/link";
 import ProgressBar from "./ProgressBar";
 import RadioQuestion from "./questions/RadioQuestion";
@@ -148,6 +149,14 @@ export default function Survey({
     }
   }, [answers, currentQuestionId, definition.id, loaded, showIntro]);
 
+  // Record which question is on screen (the id only, never the answer) so the
+  // admin Activity panel can show where people stop.
+  useEffect(() => {
+    if (loaded && !showIntro) {
+      logEvent("question_view", { surveyType, questionId: currentQuestionId });
+    }
+  }, [currentQuestionId, loaded, showIntro, surveyType]);
+
   const questionPath = useMemo(
     () => getQuestionPath(definition, answers),
     [definition, answers],
@@ -208,6 +217,7 @@ export default function Survey({
         return;
       }
 
+      logEvent("survey_complete", { surveyType });
       sessionStorage.setItem(`findwell-${surveyType}-response-id`, responseId);
       clearProgress(definition.id);
       router.push(`/thank-you?from=${surveyType}`);
@@ -372,7 +382,13 @@ export default function Survey({
                   gap: 14,
                 }}
               >
-                <button onClick={() => setShowIntro(false)} className="fw-btn">
+                <button
+                  onClick={() => {
+                    logEvent("survey_start", { surveyType });
+                    setShowIntro(false);
+                  }}
+                  className="fw-btn"
+                >
                   Get started <IconChevronRight size={18} />
                 </button>
                 <span

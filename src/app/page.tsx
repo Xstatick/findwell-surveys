@@ -104,7 +104,7 @@ export default function Home() {
               marginTop: 28, fontFamily: "var(--tm-font-sans)", fontSize: 13,
               color: "var(--tm-text-tertiary)",
             }}>
-              We don&apos;t collect anything about you unless you opt in at the end.
+              We never ask who you are. Nothing you write is saved unless you press Submit.
             </div>
           </div>
         </div>

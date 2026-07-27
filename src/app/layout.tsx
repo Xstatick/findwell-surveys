@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import SiteAnalytics from "@/components/SiteAnalytics";
+import VisitLogger from "@/components/VisitLogger";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,6 +17,7 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <body className="min-h-full flex flex-col">
         {children}
+        <VisitLogger />
         <SiteAnalytics />
       </body>
     </html>
