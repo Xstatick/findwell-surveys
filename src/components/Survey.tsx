@@ -127,6 +127,7 @@ export default function Survey({
   );
   const [showIntro, setShowIntro] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitFailed, setSubmitFailed] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -177,16 +178,33 @@ export default function Survey({
 
     if (nextId === null) {
       setIsSubmitting(true);
+      setSubmitFailed(false);
       const responseId = crypto.randomUUID();
-      const { error } = await getSupabase().from(tableName).insert({
-        id: responseId,
-        responses: answers,
-        submitted_at: new Date().toISOString(),
-      });
 
-      if (error) {
-        console.error("Submission error:", error);
+      // A paused Supabase project can either return an error or reject
+      // outright, so catch both and surface the failure to the respondent
+      // instead of leaving them on a dead button.
+      let failed = false;
+      try {
+        const { error } = await getSupabase().from(tableName).insert({
+          id: responseId,
+          responses: answers,
+          submitted_at: new Date().toISOString(),
+        });
+        if (error) {
+          console.error("Submission error:", error);
+          failed = true;
+        }
+      } catch (err) {
+        console.error("Submission error:", err);
+        failed = true;
+      }
+
+      if (failed) {
+        // Progress stays in localStorage so a retry - now or later - still
+        // has their answers.
         setIsSubmitting(false);
+        setSubmitFailed(true);
         return;
       }
 
@@ -200,6 +218,7 @@ export default function Survey({
   };
 
   const handleBack = () => {
+    setSubmitFailed(false);
     if (currentIndex === 0) {
       if (definition.introText) setShowIntro(true);
       return;
@@ -581,6 +600,49 @@ export default function Survey({
               )}
             </div>
 
+            {/* Submission failure - e.g. the database is paused or the
+                respondent dropped offline. Their answers are still saved
+                locally, so a retry is genuinely worth offering. */}
+            {submitFailed && (
+              <div
+                role="alert"
+                style={{
+                  marginTop: 8,
+                  padding: "18px 20px",
+                  borderRadius: 14,
+                  background: "var(--tm-peach-50)",
+                  boxShadow: "inset 0 0 0 1.5px var(--tm-peach-300)",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 6,
+                  maxWidth: 600,
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "var(--tm-font-sans)",
+                    fontSize: 15,
+                    fontWeight: 600,
+                    color: "var(--tm-text-primary)",
+                  }}
+                >
+                  We couldn&apos;t save your answers just now.
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--tm-font-sans)",
+                    fontSize: 14,
+                    lineHeight: 1.55,
+                    color: "var(--tm-text-secondary)",
+                  }}
+                >
+                  Nothing is lost — your answers are still saved on this device.
+                  Press &ldquo;Try again&rdquo; below. If it keeps failing, come
+                  back to this page later and your answers will be waiting.
+                </div>
+              </div>
+            )}
+
             {/* Bottom action row */}
             <div
               style={{
@@ -618,9 +680,11 @@ export default function Survey({
                 >
                   {isSubmitting
                     ? "Submitting…"
-                    : isLastQuestion
-                      ? "Submit"
-                      : "Next"}
+                    : submitFailed
+                      ? "Try again"
+                      : isLastQuestion
+                        ? "Submit"
+                        : "Next"}
                   {!isSubmitting && <IconChevronRight size={18} />}
                 </button>
               </div>
