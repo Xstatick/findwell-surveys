@@ -5,7 +5,7 @@ export const patientSurvey: SurveyDefinition = {
   title: "Patient Discovery Survey",
   description: "Help us understand what matters most when you look for a therapist.",
   introText:
-    "Your responses are completely anonymous. We're researching how people experience finding mental health support, and we'd love your honest take. There are no right or wrong answers. At the end, you'll have the option to share your contact information if you'd like to stay involved. This should take about 10 minutes.",
+    "Your responses are completely anonymous - no personal information is saved. We're researching how people experience finding mental health support, and we'd love your honest take. There are no right or wrong answers. At the end, you'll have the option to share your contact information if you'd like to stay involved. This should take about 10 minutes.",
   firstQuestionId: "p1",
   questions: [
     // Section 1: For Everyone
