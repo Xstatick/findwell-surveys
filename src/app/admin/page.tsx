@@ -1,7 +1,14 @@
 import Link from "next/link";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 import LogoutButton from "@/components/admin/LogoutButton";
-import { LogoMark, IconUser, IconBriefcase, IconChevronRight, IconClock } from "@/components/ui/Icons";
+import {
+  LogoMark,
+  IconUser,
+  IconBriefcase,
+  IconChevronRight,
+  IconClock,
+  IconChecklist,
+} from "@/components/ui/Icons";
 
 export const dynamic = "force-dynamic";
 
@@ -143,6 +150,13 @@ export default async function AdminHomePage() {
             title="Activity"
             subtitle="Visits, and how many started vs finished"
             icon={<IconClock size={18} />}
+          />
+          <ReportCard
+            href="/admin/tracker"
+            accent="lavender"
+            title="Work tracker"
+            subtitle="Epics, requirements, and what's done"
+            icon={<IconChecklist size={18} />}
           />
         </div>
       </div>
