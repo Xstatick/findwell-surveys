@@ -238,9 +238,9 @@ Status key: `Not started` / `In progress` / `Blocked` / `Done`
 - [ ] Decide the sample-size target for this round (30 to 50 patient responses is the working number)
 
 ### Requirement 8.3: Results are synthesized
-- [ ] Patient survey synthesis: search behavior, fit failures, language
-- [ ] Therapist survey synthesis: referral pain, screening burden, fit criteria
-- [ ] Feed fit-failure language into Epic 1 (dimensions) and Epic 2 (narrative)
+- [x] Patient survey synthesis: search behavior, fit failures, language
+- [x] Therapist survey synthesis: referral pain, screening burden, fit criteria
+- [x] Feed fit-failure language into Epic 1 (dimensions) and Epic 2 (narrative)
 - [ ] Contact list from opt-ins for focus groups and early access
 
 ---
@@ -261,3 +261,4 @@ Status key: `Not started` / `In progress` / `Blocked` / `Done`
 - 2026-09-26: UI and brand design is its own epic and the theme applies to every artifact, not just the product.
 - 2026-09-26: The July 2026 design exports are the theme source of truth, not the survey repo.
 - 2026-09-26: Surveys shipped on the custom Next.js app (Vercel, Supabase), not Typeform. Earlier project docs that reference Typeform are superseded.
+- 2026-09-26: Round 1 survey synthesis complete. 26 valid patient responses, 10 therapist. See findwell-survey-synthesis.md.
