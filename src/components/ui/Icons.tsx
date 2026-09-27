@@ -185,3 +185,25 @@ export function IconCheck({
     </svg>
   );
 }
+
+export function IconChecklist({ size = 18 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M9 6h11" />
+      <path d="M9 12h11" />
+      <path d="M9 18h11" />
+      <path d="m3 6 1.5 1.5L7 5" />
+      <path d="m3 12 1.5 1.5L7 11" />
+      <circle cx="4.75" cy="18" r="1.4" />
+    </svg>
+  );
+}

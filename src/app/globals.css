@@ -429,3 +429,62 @@ html, body {
 }
 
 .fw-btn--ghost:hover { background: transparent; color: var(--tm-text-primary); }
+
+/* ── Work tracker (admin) ─────────────────────────────────────────────────── */
+
+.fw-tracker { font-family: var(--tm-font-sans); font-size: 15px; line-height: 1.55; color: var(--tm-text-primary); }
+.fw-tracker a { color: inherit; text-decoration: underline; text-decoration-color: var(--app-peach-500); text-underline-offset: 3px; overflow-wrap: anywhere; }
+.fw-tracker a:hover { text-decoration-thickness: 2px; }
+.fw-tracker code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 0.9em; background: var(--tm-bg-subtle); padding: 1px 5px; border-radius: 4px; }
+.fw-tracker strong { font-weight: 600; }
+.fw-tracker p { margin: 0 0 12px; max-width: 64ch; }
+.fw-tracker h2 { font-family: var(--tm-font-display); font-weight: 400; font-size: 32px; line-height: 1.1; letter-spacing: -0.015em; margin: 0 0 14px; color: var(--tm-text-primary); }
+.fw-tracker h3 { font-size: 16px; font-weight: 600; margin: 28px 0 8px; color: var(--tm-text-primary); }
+
+.fw-epic-index { border-top: 1px solid var(--tm-border-default); border-bottom: 1px solid var(--tm-border-default); padding: 8px 0; margin-bottom: 48px; }
+.fw-epic-index ol { list-style: none; margin: 0; padding: 0; }
+.fw-epic-index li + li { border-top: 1px solid var(--tm-divider); }
+.fw-epic-index a { display: grid; grid-template-columns: 2ch 1fr auto auto; gap: 14px; align-items: center; padding: 11px 4px; text-decoration: none; border-radius: 6px; }
+.fw-epic-index a:hover { background: var(--tm-bg-subtle); }
+.fw-epic-index-n { font-family: var(--tm-font-display); font-size: 20px; color: var(--tm-text-secondary); }
+.fw-epic-index-name { font-weight: 500; }
+.fw-epic-index-bar { width: 72px; height: 4px; background: var(--tm-bg-muted); border-radius: 999px; overflow: hidden; }
+.fw-epic-index-bar span { display: block; height: 100%; background: var(--app-peach-500); border-radius: 999px; }
+.fw-epic-index-count { color: var(--tm-text-tertiary); font-size: 13px; min-width: 6ch; text-align: right; font-variant-numeric: tabular-nums; }
+@media (max-width: 480px) {
+  .fw-epic-index-bar { display: none; }
+  .fw-epic-index a { grid-template-columns: 2ch 1fr auto; }
+}
+
+.fw-tracker-section { margin-bottom: 48px; scroll-margin-top: 16px; }
+.fw-tracker-section--epic { padding-top: 24px; border-top: 1px solid var(--tm-border-default); }
+.fw-tracker-section:not(.fw-tracker-section--epic) h2 { font-size: 26px; }
+.fw-epic-head { display: grid; grid-template-columns: auto 1fr; column-gap: 14px; align-items: baseline; margin-bottom: 14px; }
+.fw-epic-head h2 { margin: 0; }
+.fw-epic-num { font-family: var(--tm-font-display); font-style: italic; font-size: 22px; color: var(--tm-text-secondary); }
+.fw-epic-count { grid-column: 2; color: var(--tm-text-tertiary); font-size: 13px; font-variant-numeric: tabular-nums; }
+
+.fw-meta { margin: 0 0 16px; padding: 14px 16px; background: var(--tm-bg-subtle); border-radius: 12px; display: grid; gap: 6px; }
+.fw-meta div { display: grid; grid-template-columns: 9ch 1fr; gap: 10px; }
+.fw-meta dt { color: var(--tm-text-tertiary); font-size: 13px; padding-top: 2px; }
+.fw-meta dd { margin: 0; }
+@media (max-width: 480px) { .fw-meta div { grid-template-columns: 1fr; gap: 2px; } }
+
+.fw-status { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; }
+.fw-status--in-progress { background: var(--tm-lavender-200); color: var(--tm-lavender-700); }
+.fw-status--done { background: var(--tm-butter-100); color: var(--tm-butter-700); }
+.fw-status--blocked { background: var(--tm-peach-100); color: var(--tm-peach-700); }
+.fw-status--not-started { background: var(--tm-bg-muted); color: var(--tm-text-tertiary); }
+
+.fw-tracker ul { list-style: none; margin: 0 0 12px; padding: 0; }
+.fw-tracker ul ul { margin: 6px 0 0 24px; }
+.fw-tracker li { position: relative; padding-left: 22px; margin: 0 0 7px; max-width: 66ch; }
+.fw-tracker li::before { content: ''; position: absolute; left: 6px; top: 0.72em; width: 5px; height: 5px; border-radius: 50%; background: var(--tm-plum-300); }
+.fw-epic-index li { padding: 0; margin: 0; max-width: none; }
+.fw-epic-index li::before { display: none; }
+.fw-task { padding-left: 30px; }
+.fw-task::before { display: none; }
+.fw-task-box { position: absolute; left: 0; top: 0.18em; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--tm-plum-300); }
+.fw-task--done .fw-task-box { background: var(--app-peach); border-color: var(--app-peach); }
+.fw-task--done .fw-task-box::after { content: ''; position: absolute; left: 5px; top: 3px; width: 5px; height: 9px; border: solid var(--app-plum); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.fw-task--done .fw-task-text { color: var(--tm-text-tertiary); text-decoration: line-through; text-decoration-color: var(--tm-plum-300); }
