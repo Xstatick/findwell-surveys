@@ -50,7 +50,9 @@ Status key: `Not started` / `In progress` / `Blocked` / `Done`
 ### Requirement 1.1: Matching dimensions are defined and clinically reviewed
 - [ ] Draft v1 taxonomy built on the goals / tasks / bond framework, plus concern areas, identity comfort, and logistics
 - [ ] Shannon review using the open questions in the research reference [Shannon]
-- [ ] Define the therapist-side mirror of every patient dimension
+- [x] Shannon's answer to Q1 received (clinical mismatch); Q2 to Q4 outstanding
+- [ ] Rule: patients are never asked which modality they want
+- [ ] Define the therapist-side mirror of every patient dimension, including verified depth of training (certifications, supervised hours, caseload concentration, forced top-three focus)
 - [ ] Decide whether to capture intensity (how much it affects daily life) or leave it out
 - [ ] Confirm every dimension can be captured without diagnosis
 
@@ -64,7 +66,8 @@ Status key: `Not started` / `In progress` / `Blocked` / `Done`
 - [ ] Post-session patient fit check (timing, questions, scale)
 - [ ] Lightweight therapist fit rating
 - [ ] Rematch rules: when it triggers, what it uses, who pays
-- [ ] Session 3 to 4 check-in
+- [ ] Session 3 to 4 check-in; asks about progress, not only comfort, since bond can mask a bad match
+- [ ] Therapist consult debrief: therapist enters their own read after the consult call; feeds rematch and algorithm learning
 
 ### Requirement 1.4: Research base is verified
 - [ ] Verify Constantino et al. (2021) matching trial before citing
@@ -81,7 +84,7 @@ Status key: `Not started` / `In progress` / `Blocked` / `Done`
 
 ### Requirement 2.1: Core journeys are documented
 - [ ] Patient journey end to end (Maya): arrival, consent, check-in, intake, match reveal, handoff, fit check
-- [ ] Therapist journey: onboarding, profile, receiving a match profile, fit rating
+- [ ] Therapist journey: onboarding, profile, receiving a match profile, consult debrief, fit rating
 - [ ] Rematch journey
 - [ ] Crisis path: what the patient sees if risk language appears
 
@@ -111,6 +114,7 @@ Status key: `Not started` / `In progress` / `Blocked` / `Done`
 - [ ] No probing of emotional or trauma content
 - [ ] Progress indicator behavior
 - [ ] Decision: text only vs. optional spoken voice
+- [ ] Never asks for a modality preference; never infers a disorder
 
 ### Requirement 3.3: Output is consumable by the matching model
 - [ ] Output schema: structured tags plus the patient's own words for match explanations
@@ -148,10 +152,11 @@ Status key: `Not started` / `In progress` / `Blocked` / `Done`
 ## Epic 5: Trust, safety, and compliance
 
 **Goal:** Findwell is clearly a matching service, not therapy, and handles crisis and sensitive data responsibly.
-**Status:** Not started
+**Status:** In progress
 **Early items:** crisis protocol and positioning gate Epic 3
 
 ### Requirement 5.1: Legal positioning is clear
+- [ ] Decide the privacy posture once for all intake data, early. Covers HIPAA business-associate exposure (the therapist debrief path likely triggers it), state consumer health data laws (Washington MHMDA, Nevada, Connecticut, others), and the FTC Health Breach Notification Rule (BetterHelp order, 2023)
 - [ ] Legal review of matching-not-therapy positioning
 - [ ] Review of state rules on AI in mental health. Starting points: Illinois WOPR Act (Aug 2025) bars AI from therapy conversations, treatment decisions, and reading emotions; Nevada (2025) similar ban; Colorado, Maine, Rhode Island, Tennessee, Vermont enacted restrictions in 2026; Utah and New York took a disclosure and crisis-routing approach. Florida has no law yet. Design for the strictest state.
 - [ ] Confirm whether Findwell has any mandated reporting obligations
@@ -167,6 +172,7 @@ Status key: `Not started` / `In progress` / `Blocked` / `Done`
 - [ ] What Findwell is and isn't
 - [ ] Data use, who sees what, and when
 - [ ] Consent to share the match profile with the therapist
+- [ ] No-ads, no data sales commitment written into consent language and the public privacy page
 
 ---
 
@@ -180,6 +186,7 @@ Status key: `Not started` / `In progress` / `Blocked` / `Done`
 - [ ] Vetting and quality criteria
 - [ ] Credential verification approach
 - [ ] Exclusion handling (concerns and populations a therapist won't treat)
+- [ ] Verified training depth is part of the quality bar, not just credentials
 
 ### Requirement 6.2: Therapist onboarding is designed
 - [ ] Profile design mirroring the matching dimensions
@@ -238,10 +245,10 @@ Status key: `Not started` / `In progress` / `Blocked` / `Done`
 - [ ] Decide the sample-size target for this round (30 to 50 patient responses is the working number)
 
 ### Requirement 8.3: Results are synthesized
-- [ ] Patient survey synthesis: search behavior, fit failures, language
-- [ ] Therapist survey synthesis: referral pain, screening burden, fit criteria
-- [ ] Feed fit-failure language into Epic 1 (dimensions) and Epic 2 (narrative)
-- [ ] Contact list from opt-ins for focus groups and early access
+- [x] Patient survey synthesis: search behavior, fit failures, language
+- [x] Therapist survey synthesis: referral pain, screening burden, fit criteria
+- [x] Feed fit-failure language into Epic 1 (dimensions) and Epic 2 (narrative)
+- [x] Contact list from opt-ins for focus groups and early access
 
 ---
 
@@ -261,3 +268,7 @@ Status key: `Not started` / `In progress` / `Blocked` / `Done`
 - 2026-09-26: UI and brand design is its own epic and the theme applies to every artifact, not just the product.
 - 2026-09-26: The July 2026 design exports are the theme source of truth, not the survey repo.
 - 2026-09-26: Surveys shipped on the custom Next.js app (Vercel, Supabase), not Typeform. Earlier project docs that reference Typeform are superseded.
+- 2026-10-26: No ad-driven model and no selling or sharing of patient data, ever. Premium pricing is the mechanism. Goes in the pitch as a differentiator.
+- 2026-10-26: Patients are not asked which modality they want. Therapist profiles carry verified depth instead.
+- 2026-10-26: Clinical judgment lives with the therapist on the consult call, entered as a debrief. Findwell never generates a label about a patient. Concern-area-to-expertise mapping is routing, not diagnosis.
+- 2026-10-26: Privacy posture is decided once for all intake data, not field by field.
