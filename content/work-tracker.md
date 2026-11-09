@@ -268,6 +268,7 @@ Status key: `Not started` / `In progress` / `Blocked` / `Done`
 - 2026-09-26: UI and brand design is its own epic and the theme applies to every artifact, not just the product.
 - 2026-09-26: The July 2026 design exports are the theme source of truth, not the survey repo.
 - 2026-09-26: Surveys shipped on the custom Next.js app (Vercel, Supabase), not Typeform. Earlier project docs that reference Typeform are superseded.
+- 2026-09-26: Round 1 survey synthesis complete. 26 valid patient responses, 10 therapist. See findwell-survey-synthesis.md.
 - 2026-10-26: No ad-driven model and no selling or sharing of patient data, ever. Premium pricing is the mechanism. Goes in the pitch as a differentiator.
 - 2026-10-26: Patients are not asked which modality they want. Therapist profiles carry verified depth instead.
 - 2026-10-26: Clinical judgment lives with the therapist on the consult call, entered as a debrief. Findwell never generates a label about a patient. Concern-area-to-expertise mapping is routing, not diagnosis.
